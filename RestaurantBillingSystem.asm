@@ -242,8 +242,6 @@ XULI MACRO STT, Q, PR, TONG, DIS
     
      
 XULI ENDM  
-
-
        
        
 ;IN RA OBJECT
@@ -499,7 +497,7 @@ OUTPUT1 PROC
         JE INRA8 
         CMP AL, 9
         JE INRA9   
-  CON:      
+    CON:      
         INC SI
         CMP SI, 9
         JNE LAP
@@ -567,7 +565,7 @@ BACK PROC
 
     CMP AL,1
     JE BREATFAST ;Hien thi MENU     
-    CALL LUCKYNUMBER  ;Hien thi Hoa Don
+    CALL LUCKYNUMBER  ;luckynumber
     RET
 BACK ENDP
          
@@ -588,6 +586,7 @@ LUCKYNUMBER PROC
     PRINT SEJ    
     PRINT GACH       
     PRINT number
+    
     mov ah, 1;
     int 21h
     sub al, 48    ;Lucky Numer
@@ -734,9 +733,7 @@ KHUYENMAI PROC
     KM:    
         DIV CL         ;AX = AX / CL
         MOV DIS, AX    ;DIS = AX / CL 
-        
-        
-        
+                
         
         PRINT TBDIS
         MOV AX, DIS
@@ -750,12 +747,8 @@ KHUYENMAI PROC
         MOV AX, DIS  
         MOV BX, SUM 
         SUB BX, AX
-        MOV SUM, BX
-            
-              
-        
-    
-                 
+        MOV SUM, BX      
+                     
     ret
 KHUYENMAI ENDP
 
