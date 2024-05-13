@@ -1,13 +1,12 @@
 .MODEL LARGE
 .STACK 1000H
-.DATA       
-
-;OBJECT
-NAME1   DW  '|  Banh Mi $'
-Q1      DW  0
-PR1     DW  10 
-STT1    DW  1 
-TONG1   DW  0   
+.DATA 
+;MON AN
+NAME1   DW  '|  Banh Mi $'   ;Ten mon
+Q1      DW  0                ;So luong
+PR1     DW  10               ;Don gia
+STT1    DW  1                ;So Thu tu
+TONG1   DW  0                ;Tong tien
 
 
 NAME2   DW  '|  Chao Ga $'
@@ -64,116 +63,96 @@ Q9      DW  0
 PR9     DW  60
 STT9    DW  9
 TONG9   DW  0
-    
 
 ;LIST
 LIST DB 1, 2, 3, 4, 5, 6, 7, 8, 9
 
-;cac bien luu tru
-SUM DW ?  ;Tong tien mon an
-SUMFOOD DW ?              
-VAT DW ? 
+;***BIEN LUU TRU***
+SUM DW ?                    ;Tong tien thanh toan
+;;;;;SUMFOOD DW ?              
+VAT DW ?                    ;VAT
 TMP2 DW 0 
-MUOI DW 10
+MUOI DW 10                  ;So 10
 CNT DW 0   
-LUCKY DW ?
+LUCKY DW ?                  ;
 DISCOUNT DW ?
-DIS DW ?
-   
+DIS DW ? 
+
 STR2 DW 100 DUP('$')  ;Luu Ghi chu 
 STR3 DW 100 DUP('$')
-STRR dw 100 DUP('$' )       
+STRR dw 100 DUP('$')   
+
+;OPTION & ORDER
+OPT1 DB 13, 10, 10,        '  Vui long chon mon an: $'
+OPT2 DB 13, 10, 10,        '  Nhap so luong: $'
+OPT3  DB 10,13,10,13,      '  Nhan nut bat ky de bat dau: $'
+OPT4 DB 10, 13, 10, 13,    '  Chon hành dong: $' 
+OPT5 DB 10, 13, 10, 13,    '                     Nhan nut bat ky de in hoa don: $' 
+OPT6 DB 10, 13, 10, 13,    '  Nhap lua chon cua ban: $'
+NOTE DB 13, 10, 10,        '  Ghi chu: $'
+
+;BACK
+BACK1 DB 10, 13, 10, 13,     '  1.Lua chon them mon $'
+BACK2 DB 13, 10,             '  2.Tiep theo$'
 
 
-
-
-
-;LAM DEP 
-CACH      DB  13, 10,   '|                                                                           |$'
+;****GIAO DIEN****
+CACH1      DB  13, 10,   '|                                                                           |$'
 KHOANGCACH DB           '         $'
-CACH4     DB            ' $'
+CACH2     DB            ' $'
 
-GACH2     DB            '            |$' 
-GACH3     DB            '                                            |$'
-GACH DB 13, 10,         '|---------------------------------------------------------------------------|$'
- 
+GACH1     DB            '            |$' 
+GACH2     DB            '                                            |$'
+GACH3 DB 13, 10,        '|---------------------------------------------------------------------------|$'
 ;CTRF
 CRTF DB 13, 10,         '$'  
 ;CTRF X 2
-SEJ DB 10,13,10,13,     '$'
+SEJ DB 10,13,10,13,     '$' 
 
-;GREETING             '|---------------------------------------------------------------------------|$'
-M1  DB 10,13,         '|                     Chao mung den voi 999 Restaurant                      |$'
-M3  DB 10,13,         '|                                                                           |$' 
-M4  DB 10,13,         '|                                      *                                    |$'
-MS5 DB 10,13,         '|                                     ***                                   |$'
-M5  DB 10,13,         '|                                 ***********                               |$'
-M6  DB 10,13,         '|                                   *******                                 |$'
-M8  DB 10,13,         '|                                   *** ***                                 |$'                                                                             
-M85 DB 10,13,         '|                                  **     **                                |$'                                    
-M7  DB 10,13,         '|                                                                           |$'                           
 
+;WELCOME            
+W1  DB 10,13,         '|                     Chao mung den voi 999 Restaurant                      |$'
+W2  DB 10,13,         '|                                                                           |$' 
+W3  DB 10,13,         '|                                      *                                    |$'
+W4 DB 10,13,          '|                                     ***                                   |$'
+W5  DB 10,13,         '|                                 ***********                               |$'
+W6  DB 10,13,         '|                                   *******                                 |$'
+W7  DB 10,13,         '|                                   *** ***                                 |$'                                                                             
+W8 DB 10,13,          '|                                  **     **                                |$'                                    
+W9  DB 10,13,         '|                                                                           |$' 
 
 ;KHUNG MENU
-MR1 DB 10,13,       '  **                                                    **$'
-MR2 DB 10,13,       '  ********************************************************$'
-MR3 DB 10,13,       '  **                                                    **$'
-MR4 DB 10,13,       '  **                                                               **$'
-MR5 DB 10,13,       '  *******************************************************************$' 
+ME1 DB 10,13,       '  **                                                    **$'
+ME2 DB 10,13,       '  ********************************************************$'
+ME3 DB 10,13,       '  **                                                    **$'
+ME4 DB 10,13,       '  **                                                               **$'
+ME5 DB 10,13,       '  *******************************************************************$' 
 MENU DB 10,13,      '  *****************************---MENU---****************************$'
-MR6 DB 10,13,       '  **                                          **$'
-MR7 DB 10,13,       '  **********************************************$'
-  
-;FOOD LIST  
-M9 DB 10,13, '  **           1.Banh Mi                 10.000 VND                **$' 
-M10 DB 10,13,'  **           2.Chao Ga                 10.000 VND                **$'
-M11 DB 10,13,'  **           3.Mi xao                  10.000 VND                **$'
-M12 DB 10,13,'  **           4.Xoi Ga                  10.000 VND                **$'
-M13 DB 10,13,'  **           5.Pho Ga                  20.000 VND                **$'
-M14 DB 10,13,'  **           6.Pho Bo                  20.000 VND                **$'
-M15 DB 10,13,'  **           7.Bun Hue                 30.000 VND                **$'
-M16 DB 10,13,'  **           8.Bun Rieu                30.000 VND                **$'
-M17 DB 10,13,'  **           9.Pho Dac Biet            60.000 VND                **$' 
+ME6 DB 10,13,       '  **                                          **$'
+ME7 DB 10,13,       '  **********************************************$'    
 
+;MENU  
+M1 DB 10,13,'  **           1.Banh Mi                 10.000 VND                **$' 
+M2 DB 10,13,'  **           2.Chao Ga                 10.000 VND                **$'
+M3 DB 10,13,'  **           3.Mi xao                  10.000 VND                **$'
+M4 DB 10,13,'  **           4.Xoi Ga                  10.000 VND                **$'
+M5 DB 10,13,'  **           5.Pho Ga                  20.000 VND                **$'
+M6 DB 10,13,'  **           6.Pho Bo                  20.000 VND                **$'
+M7 DB 10,13,'  **           7.Bun Hue                 30.000 VND                **$'
+M8 DB 10,13,'  **           8.Bun Rieu                30.000 VND                **$'
+M9 DB 10,13,'  **           9.Pho Dac Biet            60.000 VND                **$'                    
 
-
-;RESULTS
+;BILL
 NAMEOFRES DB 13, 10,     '|----------------------------999 Restaurant Bill----------------------------|$'
-TRANGTRI  DB 13, 10,     '|                 ---------------------------------------                   |$'
-TRANGTRI2  DB 13, 10,    '|                      ----------------------------                         |$'
-TRANGTRI3  DB 13, 10,    '|                             ---------------                               |$'
-NGAY      DB 13, 10,     '|        Ngay: 30/04/2023.         *****            Gio: 14h 32p            |$'
-ADMIN     DB 13, 10,     '|        Thu Ngan: Admin                           Ma Hoa Don: XX01         |$'
+B1        DB 13, 10,     '|                 ---------------------------------------                   |$'
+B2        DB 13, 10,     '|                      ----------------------------                         |$'
+B3        DB 13, 10,     '|                             ---------------                               |$'
+NGAY      DB 13, 10,     '|        Ngay: 30/02/2024.         *****            Gio: 24h 00p            |$'
+ADMIN     DB 13, 10,     '|        Thu Ngan: Admin                           Ma Hoa Don: KTMT05       |$'
 DSACH     DB 13, 10,     '|  DS MON AN:      SO LUONG        DON GIA           THANH TIEN             |$'
                              
-TOTAL     DB 13, 10,     '|  TONG THANH TOAN:  $'
-VND       DB             '.000VND$'
-
-;GACH
-
-
-;ORDER
-M57 DB 13, 10, 10,         '  Vui long chon mon an: $'
-M58 DB 13, 10, 10,         '  Nhap so luong: $'
-NOTE DB 13, 10, 10,        '  Ghi chu: $'
-M2  DB 10,13,10,13,        '  Nhan nut bat ky de bat dau: $'
-OPT1 DB 10, 13, 10, 13,    '  Chon hành dong: $' 
-OPT2 DB 10, 13, 10, 13,    '                       Nhan so [1] de in hoa don: $' 
-OPT3 DB 10, 13, 10, 13,    '  Nhap lua chon cua ban: $'
-;GREETING             '    |---------------------------------------------------------------------------|$'
-DMSG DB 10, 13, 10, 13,    '                 *****************************************$'
-MSG5 DB 10, 13, 10, 13,    '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 50% |$'
-MSG2 DB 10, 13, 10, 13,    '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 20% |$'  
-MSG1 DB 10, 13, 10, 13,    '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 10% |$'
-number DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 1 - 9 : $'
-
-;BACK
-M60 DB 10, 13, 10, 13,     '  1.Lua chon them mon $'
-M61 DB 13, 10,             '  2.Tiep theo$'
-      
-KM1 DB 10, '20$'
-KM2 DB 50, '50$'
-
+TONG     DB 13, 10,     '|  TONG THANH TOAN:  $'
+VND       DB             '.000VND$'          
 
 
 ;LUCKY NUMBER
@@ -185,29 +164,34 @@ LU5 DB 13, 10,     '     /  / /        /  / /    /  / / /  / /        |  |   -- 
 LU6 DB 13, 10,     '    /  / / 	   /  / /    /  / / /  / /         |  |\  \ \      \   / /   $'
 LU7 DB 13, 10,     '   /  /_/_____   /  /_/____/  / / /  /_/____      |  ||\  \ \     /  / /    $'
 LU8 DB 13, 10,     '  /__________/\ /___________ / / /_________/\     |  || \  \ \   /__/ /     $'
-LU9 DB 13, 10,     '  \\_________\/ \\__________\\/  \\________\/     |__|/  \__\/   \\_\/      $'
-                    
+LU9 DB 13, 10,     '  \\_________\/ \\__________\\/  \\________\/     |__|/  \__\/   \\_\/      $'  
 
-;CONFIRM
+
+;DISCOUNT             
+DMSG DB 10, 13, 10, 13,    '                 *****************************************$'
+DIS50 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 50% |$'
+DIS20 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 20% |$'  
+DIS10 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 10% |$'
+NHAPSO DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 1 - 9 : $'                                                   
+
+;XAC NHAN
 XACNHAN     DB 13, 10,              '                          XAC NHAN THANH TOAN: $'
-X1          DB 10, 13, 10, 13,       '                1.TIEN MAT                    2.CHUYEN KHOAN$'
+X1          DB 10, 13, 10, 13,      '                1.TIEN MAT                    2.CHUYEN KHOAN$'
 X2          DB 10, 13, 10, 13,      '|                 QUY KHACH VUI LONG THANH TOAN SAU KHI DUNG BUA            |$' 
 
 X3          DB 13, 10,              '|                      THANH TOAN QUA HINH THUC CHUYEN KHOAN:               |$'
-CK1         DB 13, 10,              '|                      NGAN HANG:        MB BANK                            |$'                             
-CK2         DB 13, 10,              '|                      SO TAI KHOAN:     0382519718                         |$'
-CK3         DB 13, 10,              '|                      ND CHUYEN KHOAN:  XX01                               |$'                                 
+CK1         DB 13, 10,              '|                      NGAN HANG:        PTIT BANK                          |$'                             
+CK2         DB 13, 10,              '|                      SO TAI KHOAN:     9999999999                         |$'
+CK3         DB 13, 10,              '|                      ND CHUYEN KHOAN:  KTMT05                             |$'                                 
 CK4         DB 13, 10,              '|                      SO TIEN:       $'
 CK5         DB                                                                       '                           |$'
 KETTHUC     DB 13, 10,              '|-------------------------CHUC QUY KHACH NGON MIENG!------------------------|$'
 ;GREETING                           '|---------------------------------------------------------------------------|$'     
 TBDIS DB 13, 10,                    '|  KHUYEN MAI:                                       $'
 ;THONG BAO VAT             
-TBVAT DB 13, 10,                    '|  VAT(10%):                                         $'
+TBVAT DB 13, 10,                    '|  VAT(10%):                                         $' 
 
-
-.CODE       
-
+.CODE
 ;IN RA MOT STRING BAT KI
 PRINT MACRO STR
     LEA DX, STR
@@ -215,28 +199,28 @@ PRINT MACRO STR
     INT 21H
 PRINT ENDM
 
-;NHAP VAO OBJECT
+;XULI MON AN
 XULI MACRO STT, Q, PR, TONG, DIS
     
-    PRINT M58     ;'So luong: '                               
+    PRINT OPT2      ;'So luong: '                               
     PUSH CX
-    CALL NHAPSL   ;Luu vao AX
+    CALL NHAPSL     ;Nhap so luong luu vao AX
     POP CX 
      
     ;GIA TIEN TAM THOI
-    MOV BX, AX    ;BX = Soluong
-    MOV AX, PR    ;AX = Price
-    MUL BX        ;AX = Gia tien = SL * PR
-    MOV DX, AX    ;DX luu Price
+    MOV BX, AX      ;BX = Soluong
+    MOV AX, PR      ;AX = Price
+    MUL BX          ;AX = Gia tien = SL * PR
+    MOV DX, AX      ;DX luu Price
     
     ;SO LUONG TICH LUY
     MOV AX, Q 
-    ADD AX, BX    ;Cong so luong tam thoi voi so luong tich luy
+    ADD AX, BX      ;Cong so luong tam thoi voi so luong tich luy
     MOV Q, AX
               
         
     ;TONG TICH LUY
-    MOV AX, TONG
+    MOV AX, TONG    ;Tong so tien cua hoa don
     ADD AX, DX
     MOV TONG, AX
     
@@ -244,7 +228,7 @@ XULI MACRO STT, Q, PR, TONG, DIS
 XULI ENDM  
        
        
-;IN RA OBJECT
+;IN RA MON AN
 HIENTHI MACRO  NAME, Q, PR, TONG 
 
      
@@ -254,26 +238,26 @@ HIENTHI MACRO  NAME, Q, PR, TONG
      MOV SUM, AX
     
      PRINT CRTF
-     PRINT NAME   ;In ten
+     PRINT NAME      ;In ten
      PRINT KHOANGCACH
 
      MOV AX, Q
-     CALL PRINT2  ;In So luong
+     CALL PRINT2     ;In So luong
      
      PRINT KHOANGCACH 
      
      MOV AX, PR
-     CALL PRINT2  ;In Don gia
+     CALL PRINT2     ;In Don gia
      
      PRINT VND
      PRINT KHOANGCACH
      
      MOV AX, TONG
-     CALL PRINT2  ;In Thanh Tien
-     
+     CALL PRINT2     ;In Thanh Tien
+                     
      PRINT VND  
-     PRINT GACH2 
-     PRINT GACH
+     PRINT GACH1 
+     PRINT GACH3
      
 HIENTHI ENDM
  
@@ -290,63 +274,60 @@ SOLVE MACRO CNT
    JMP HET
    
    C1:
-    PRINT CACH4
-    PRINT CACH4
-    PRINT CACH4
+    PRINT CACH2
+    PRINT CACH2
+    PRINT CACH2
     JMP HET
     
    C2:
-    PRINT CACH4
-    PRINT CACH4
+    PRINT CACH2
+    PRINT CACH2
     JMP HET
    
    C3:
-    PRINT CACH4
+    PRINT CACH2
     JMP HET
     
- HET:
-    
+ HET:    
 SOLVE ENDM
 
 MAIN PROC ; THUC HIEN ORDER
     MOV AX,@DATA
     MOV DS,AX    
  START:
-    CALL GREETING ;Hien thi man hinh Welcome
+    CALL WELCOME ;Hien thi man hinh Welcome
      
-    ;cho nay nhap 1 de tiep tuc 
+    ;Nhap nut bat ki de tiep tuc
     MOV AH,1
     INT 21H       ;Nhap 1 Ki tu luu trong AL
-    MOV BH,AL
-    SUB BH,48     ;48 la ma ASCII cua '0'
-    
+
     ;CMP BH,1      ;CMP voi 1
-    CALL BREATFAST  ;Hien thi MENU
+    CALL INMENU  ;Hien thi MENU
     ;JNE  START
     MOV SI, 0     
   
-   BREATFAST:
+    INMENU:
 ;*****MENU*****
     PRINT SEJ
-    PRINT MR5
+    PRINT ME5
     PRINT MENU
-    PRINT MR4
+    PRINT ME4
+    PRINT M1
+    PRINT M2
+    PRINT M3
+    PRINT M4
+    PRINT M5
+    PRINT M6
+    PRINT M7
+    PRINT M8
     PRINT M9
-    PRINT M10
-    PRINT M11
-    PRINT M12
-    PRINT M13
-    PRINT M14
-    PRINT M15
-    PRINT M16
-    PRINT M17
-    PRINT MR4
-    PRINT MR5
-    PRINT MR5
-    PRINT M57
+    PRINT ME4
+    PRINT ME5
+    PRINT ME5
+    PRINT OPT1
     
     ;Chon mon an
-       
+    ;Ki tu vua nhap = STT =>> XULI     
     MOV AH,1
     INT 21H
 
@@ -416,7 +397,7 @@ MAIN PROC ; THUC HIEN ORDER
     MOV AH, 10
     INT 21H 
                
-    CALL BACK ;Lua chon them/ In hoa don
+    CALL BACK ;Lua chon them mon/ Tiep tuc
     
     MOV AH,4CH
     INT 21H
@@ -425,46 +406,46 @@ MAIN ENDP
       
 ;*********IN MAN HINH WELCOME*******
 
-GREETING PROC
+WELCOME PROC
       
-    PRINT GACH
-    PRINT M1
-    PRINT M3
-    PRINT M4
-    PRINT MS5
-    PRINT M5
-    PRINT M6
-    PRINT M8
-    PRINT M85
-    PRINT M7
-    PRINT GACH
-    PRINT M2
+    PRINT GACH3
+    PRINT W1
+    PRINT W2
+    PRINT W3
+    PRINT W4
+    PRINT W5
+    PRINT W6
+    PRINT W6
+    PRINT W8
+    PRINT W9
+    PRINT GACH3
+    PRINT OPT3
     
     ret 
-GREETING ENDP
+WELCOME ENDP
 
 
 ;NHAP SO LUONG MON AN
 NHAPSL PROC
        
         MOV AH, 10                  
-        LEA DX, str3   ;String so luong
+        LEA DX, str3       ;String so luong
         INT 21H
     
         LEA SI, str3 + 2   ;Tro SI vào ki tu dau cua string         
         MOV CX, [str3 + 1] ;CX = length lam index         
         XOR CH, CH                 
         MOV AX, 0
-        MOV tmp2, AX
+        MOV TMP2, AX
     L1:                   
         MOV BX, 0
-        MOV AX, tmp2               
+        MOV AX, TMP2               
         MOV BX, [SI]    ;BX = kitu          
         MOV BH, 0
         SUB BX, '0'     ;Chuyen tu ki trong BX tu ve so          
-        MUL muoi        ;AX = AX * 10     
+        MUL MUOI        ;AX = AX * 10     
         ADD AX, BX      ;AX += BX            
-        MOV tmp2, AX                
+        MOV TMP2, AX                
         INC SI          ;id++            
         LOOP L1
         
@@ -555,20 +536,20 @@ OUTPUT1 ENDP
 ;TRO LAI MUA TIEP HAY DUNG DE IN RA HOA DON    
 BACK PROC
 
-    PRINT M60
-    PRINT M61
-    PRINT OPT3
+    PRINT BACK1
+    PRINT BACK2
+    PRINT OPT6
     
     MOV AH,1
     INT 21H          
     SUB AL,48
 
     CMP AL,1
-    JE BREATFAST ;Hien thi MENU     
-    CALL LUCKYNUMBER  ;luckynumber
+    JE INMENU ;Hien thi MENU     
+    CALL LUCKYNUMBER  ;Quay trung thuong
     RET
 BACK ENDP
-         
+                        
          
 LUCKYNUMBER PROC 
            
@@ -584,34 +565,39 @@ LUCKYNUMBER PROC
     PRINT LU8
     PRINT LU9  
     PRINT SEJ    
-    PRINT GACH       
-    PRINT number
+    PRINT GACH3       
+    PRINT NHAPSO
     
-    mov ah, 1;
-    int 21h
-    sub al, 48    ;Lucky Numer
     
-    PRINT DMSG
+    MOV AH, 1;
+    INT 21H
+    SUB AL, 48    ;Lucky Numer
+    
+    
+    
+    MOV AH, 0
     CMP AL, 9
     JE CHIN
     
     TEST AL, 1      
     JNZ LE 
-       
-        PRINT MSG1 
+        PRINT DMSG
+        PRINT DIS10 
         MOV DISCOUNT, 1
         JMP NEXT: 
     
-    LE:     
-        PRINT MSG2
+    LE: 
+        PRINT DMSG    
+        PRINT DIS20
         MOV DISCOUNT, 2
         JMP NEXT    
     CHIN:
-        PRINT MSG5
+        PRINT DMSG
+        PRINT DIS50
         MOV DISCOUNT, 5
     NEXT:
         PRINT DMSG
-        PRINT OPT2
+        PRINT OPT5
         
         MOV AH,1
         INT 21H          
@@ -620,95 +606,6 @@ LUCKYNUMBER PROC
         JE RESULT        
     
 LUCKYNUMBER ENDP 
-
-
-;IN RA HOA DON    
-RESULT PROC 
-
-    CALL CLEARSCREEN
-    
-    ;xu li hinh  thuc
-    PRINT NAMEOFRES
-    PRINT TRANGTRI
-    PRINT TRANGTRI2
-    PRINT TRANGTRI3
-    PRINT NGAY
-    PRINT cach
-    PRINT ADMIN
-    PRINT GACH 
-    PRINT DSACH
-    PRINT GACH
-    
-    
-    CALL OUTPUT1   
-    
-    CALL KHUYENMAI 
-    
-    ;CALL xuliVAT ;Tinh toan VAT
-    
-    PRINT GACH
-     
-    PRINT TOTAL
-    MOV AX, SUM
-    CALL PRINT2 
-    
-    ;xu li hinh thuc
-    PRINT VND 
-    PRINT GACH3
-    PRINT GACH 
-    PRINT CRTF
-    
-    CALL CONFIRM  ;Xac nhan hinh thuc thanh toan 
-    ret
-RESULT ENDP
-
-;XAC NHAN THANH TOAN
-CONFIRM PROC
-    
-    PRINT CRTF
-    PRINT XACNHAN
-    PRINT X1
-    PRINT CRTF
-    PRINT OPT3
-    
-    MOV AH, 1
-    INT 21H 
-    SUB AL, 48
-    
-    CMP AL, 1
-    JE TIENMAT
-    JMP BANK
-    
-    TIENMAT:
-      PRINT X2
-      JMP KT  
-      
-    BANK: 
-    
-        
-      PRINT GACH   
-      PRINT X3  
-      PRINT GACH
-      PRINT CACH
-      PRINT CK1
-      PRINT CK2
-      PRINT CK3    
-      PRINT CK4
-      
-      MOV AX, SUM
-      CALL PRINT2
-      PRINT VND   
-      PRINT CK5
-      PRINT CACH
-      
-      JMP KT
-      
-    KT:
-      PRINT KETTHUC
-
-    ret 
-CONFIRM ENDP 
-
 
 KHUYENMAI PROC 
     MOV AX, SUM    ;Tong tien
@@ -737,22 +634,22 @@ KHUYENMAI PROC
         
         PRINT TBDIS
         MOV AX, DIS
-        CALL PRINT2 
-        PRINT VND
-        PRINT GACH2
-        PRINT GACH
+        CALL PRINT2    ;In discount
         
-        CALL XULIVAT
+        PRINT VND
+        PRINT GACH1
+        PRINT GACH3
+        
+        CALL XULIVAT   ;Xu li va in VAT
         
         MOV AX, DIS  
         MOV BX, SUM 
-        SUB BX, AX
+        SUB BX, AX     ;SUM -= DIS
         MOV SUM, BX      
                      
     ret
 KHUYENMAI ENDP
 
- 
 ;TINH TOAN VA IN TRA THUE VAT
 XULIVAT PROC
       
@@ -764,34 +661,110 @@ XULIVAT PROC
    
    PRINT TBVAT
    MOV AX, VAT
-   CALL PRINT2 
+   CALL PRINT2    ;In VAT
+   
    PRINT VND
-   PRINT GACH2 
+   PRINT GACH1 
         
-   MOV AX, VAT
+   MOV AX, VAT    
    MOV BX, SUM
-   ADD BX, AX
+   ADD BX, AX     ;SUM += VAT
    MOV SUM, BX 
-   ;ADD BX, AX
-   ;MOV SUM, BX
-   
-   ;PRINT TBVAT
-   
-   ;MOV AX, VAT
-   ;CALL PRINT2
-   
-   ;PRINT VND
-   ;PRINT gach2
-   
    ret 
-XULIVAT ENDP  
+XULIVAT ENDP
 
-;IN MOT SO LUU TRONG AX
+;IN RA HOA DON    
+RESULT PROC 
+
+    CALL CLEARSCREEN
+    
+    ;xu li hinh  thuc
+    PRINT NAMEOFRES
+    PRINT B1
+    PRINT B2
+    PRINT B3
+    PRINT NGAY
+    PRINT CACH1
+    PRINT ADMIN
+    PRINT GACH3 
+    PRINT DSACH
+    PRINT GACH3
+    
+    
+    CALL OUTPUT1   
+    
+    CALL KHUYENMAI 
+    
+    ;CALL xuliVAT ;Tinh toan VAT
+    
+    PRINT GACH3
+     
+    PRINT TONG
+    MOV AX, SUM
+    CALL PRINT2 
+    
+    ;xu li hinh thuc
+    PRINT VND 
+    PRINT GACH2
+    PRINT GACH3 
+    PRINT CRTF
+    
+    CALL CONFIRM  ;Xac nhan hinh thuc thanh toan 
+    ret
+RESULT ENDP
+
+
+;XAC NHAN THANH TOAN
+CONFIRM PROC
+    
+    PRINT CRTF
+    PRINT XACNHAN
+    PRINT X1
+    PRINT CRTF
+    PRINT OPT6
+    
+    MOV AH, 1
+    INT 21H 
+    SUB AL, 48     ;Nhap lua chon
+    
+    CMP AL, 1      
+    JE TIENMAT     ;1 => Tien mat
+    JMP BANK       ;2 => Hoa don
+    
+    TIENMAT:
+      PRINT X2
+      JMP KT  
+      
+    BANK:    
+      PRINT GACH3   
+      PRINT X3  
+      PRINT GACH3
+      PRINT CACH1
+      PRINT CK1
+      PRINT CK2
+      PRINT CK3    
+      PRINT CK4
+      
+      MOV AX, SUM   ;In tong tien
+      CALL PRINT2
+      PRINT VND   
+      PRINT CK5
+      PRINT CACH1
+      
+      JMP KT
+      
+    KT:
+      PRINT KETTHUC
+
+    ret 
+CONFIRM ENDP 
+
+;IN SO LUU TRONG AX
 PRINT2 PROC
         MOV BX, 10                  
         MOV CX, 0                 
         
-  lap1:  
+    lap1:  
         MOV DX, 0
         DIV BX                   
         PUSH DX                     
@@ -805,7 +778,7 @@ PRINT2 PROC
         ;xu li dau cach thua
         SOLVE  CNT                 
 
-  lap2:
+    lap2:
  
         POP DX                     
         ADD DL, 48                  
