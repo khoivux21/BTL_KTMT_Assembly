@@ -2,8 +2,8 @@
 .STACK 1000H
 .DATA  
 
-;-----MON AN-----
-;----------------
+;-----DU LIEU MON AN-----
+;------------------------
 NAME1   DW  '|  Banh Mi $'   ;Ten mon
 Q1      DW  0                ;So luong
 PR1     DW  10               ;Don gia
@@ -72,8 +72,8 @@ TONG9   DW  0
 LIST DB 1, 2, 3, 4, 5, 6, 7, 8, 9
 
 
-;-----BIEN LUU TRU-----
-;----------------------
+;-----DU LIEU CHUNG-----
+;-----------------------
 SUM DW ?                    ;Tong tien thanh toan             
 VAT DW ?                    ;VAT
 DISCOUNT DW ?               ;Danh dau muc khuyen mai
@@ -81,11 +81,15 @@ DIS DW ?                    ;Tong tien khuyen mai
 MUOI DW 10                  ;So 10
 CNT DW 0                    ;Bien dem
 
-TMP DW 0                   ;Bien tam
+TMP DW 0                    ;Bien tam
 STR2 DW 100 DUP('$')        ;Luu Ghi chu 
 STR3 DW 100 DUP('$')
 STRR dw 100 DUP('$')   
 
+
+
+;----------------------------------------GIAO DIEN----------------------------------------------------
+;----------------------------------------------------------------------------------------------------- 
 
 ;-----NHAN LUA CHON & THONG BAO-----
 ;-----------------------------------
@@ -102,10 +106,6 @@ NHAPSO DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 0 - 9
 ALERT DB 10, 13, 10, 13,   '  Lua chon khong ton tai !!!$'
 BACK1 DB 10, 13, 10, 13,   '  1.Lua chon them mon $'
 BACK2 DB 13, 10,           '  2.Tiep theo$'
-
-
-;----------------------------------------GIAO DIEN----------------------------------------------------
-;----------------------------------------------------------------------------------------------------- 
 
 ;-----GACH & CACH-----
 ;--------------------- 
@@ -223,6 +223,7 @@ TBVAT DB 13, 10,                    '|  VAT(10%):                               
 
 .CODE
 ;---IN RA MOT STRING BAT KI---
+;-----------------------------
 PRINT MACRO STR
     LEA DX, STR
     MOV AH, 9
@@ -261,9 +262,7 @@ XULI ENDM
        
 ;-----HIEN THI MON AN-----
 ;-------------------------
-HIENTHI MACRO  NAME, Q, PR, TONG 
-
-     
+HIENTHI MACRO  NAME, Q, PR, TONG      
      MOV AX, TONG
      MOV BX, SUM
      ADD AX, BX 
