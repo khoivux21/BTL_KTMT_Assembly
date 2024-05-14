@@ -163,20 +163,6 @@ M7 DB 10,13,'  **           7.Bun Hue                 30.000 VND                
 M8 DB 10,13,'  **           8.Bun Rieu                30.000 VND                **$'
 M9 DB 10,13,'  **           9.Pho Dac Biet            60.000 VND                **$'                    
 
-;-----HOA DON-----
-;-----------------
-
-NAMEOFRES DB 13, 10,     '|----------------------------999 Restaurant Bill----------------------------|$'
-B1        DB 13, 10,     '|                 ---------------------------------------                   |$'
-B2        DB 13, 10,     '|                      ----------------------------                         |$'
-B3        DB 13, 10,     '|                             ---------------                               |$'
-NGAY      DB 13, 10,     '|        Ngay: 30/02/2024.         *****            Gio: 24h 00p            |$'
-ADMIN     DB 13, 10,     '|        Thu Ngan: Admin                           Ma Hoa Don: KTMT05       |$'
-DSACH     DB 13, 10,     '|  DS MON AN:      SO LUONG        DON GIA           THANH TIEN             |$'
-                             
-TONG     DB 13, 10,     '|  TONG THANH TOAN:  $'
-VND       DB             '.000VND$'          
-
 
 ;-----LUCKY NUMBER-----
 ;---------------------- 
@@ -199,7 +185,21 @@ DMSG DB 10, 13, 10, 13,    '                 ***********************************
 DIS50 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 50% |$'
 DIS20 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 20% |$'  
 DIS10 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 10% |$'
-                                                  
+
+;-----HOA DON-----
+;-----------------
+
+B0        DB 13, 10,     '|----------------------------999 Restaurant Bill----------------------------|$'
+B1        DB 13, 10,     '|                 ---------------------------------------                   |$'
+B2        DB 13, 10,     '|                      ----------------------------                         |$'
+B3        DB 13, 10,     '|                             ---------------                               |$'
+NGAY      DB 13, 10,     '|        Ngay: 30/02/2024.         *****            Gio: 24h 00p            |$'
+ADMIN     DB 13, 10,     '|        Thu Ngan: Admin                           Ma Hoa Don: KTMT05       |$'
+DSACH     DB 13, 10,     '|  DS MON AN:      SO LUONG        DON GIA           THANH TIEN             |$'
+                             
+TONG     DB 13, 10,     '|  TONG THANH TOAN:  $'
+VND       DB             '.000VND$'          
+                                                 
 
 ;-----XAC NHAN THANH TOAN-----
 ;----------------------------- 
@@ -398,32 +398,32 @@ MAIN PROC
     CMP BL,9
     JE Mon9
  
-   Mon1:
+   MON1:
         XULI STT1, Q1, PR1, TONG1
            
         JMP STOP
-   Mon2:
+   MON2:
         XULI STT2, Q2, PR2, TONG2
         JMP STOP
-   Mon3:
+   MON3:
         XULI STT3, Q3, PR3, TONG3
         JMP STOP
-   Mon4:
+   MON4:
  
         JMP STOP
-   Mon5:
+   MON5:
         XULI STT5, Q5, PR5, TONG5
         JMP STOP
-   Mon6:
+   MON6:
         XULI STT6, Q6, PR6, TONG6
         JMP STOP
-   Mon7:
+   MON7:
         XULI STT7, Q7, PR7, TONG7
         JMP STOP
-   Mon8:
+   MON8:
         XULI STT8, Q8, PR8, TONG8
         JMP STOP
-   Mon9:
+   MON9:
         XULI STT9, Q9, PR9, TONG9
         JMP STOP
           
@@ -494,10 +494,10 @@ NHAPSL ENDP
 
 ;-----DUYET DANH SACH MON AN VA IN MON AN-----
 ;---------------------------------------------
-OUTPUT1 PROC    
+OUTPUT PROC    
      MOV SI, 0        
      LAP:   
-        MOV AL, LIST[SI]
+        MOV AL, LIST[SI]   ;LIST = 1,2,3,4,5,6,7,8,9
         XOR AH, AH
         CMP AL, 1
         JE INRA1
@@ -524,8 +524,8 @@ OUTPUT1 PROC
         JMP EN
      
      INRA1:    
-        CMP Q1, 0
-        JE CON
+        CMP Q1, 0     ;Neu so luong  = 0 thi nhay den mon tiep theo
+        JE CON        ;So luong khac 0 thi Hienthi
         HIENTHI NAME1, Q1, PR1, TONG1   ;In Object
         JMP CON
      INRA2:  
@@ -570,7 +570,7 @@ OUTPUT1 PROC
         JMP CON   
   EN: 
      ret       
-OUTPUT1 ENDP
+OUTPUT ENDP
  
 ;-----THEM MON / TIEP TUC-----
 ;-----------------------------   
@@ -728,7 +728,7 @@ RESULT PROC
     CALL CLEARSCREEN
     
     ;xu li hinh  thuc
-    PRINT NAMEOFRES
+    PRINT B0
     PRINT B1
     PRINT B2
     PRINT B3
@@ -740,7 +740,7 @@ RESULT PROC
     PRINT GACH3
     
     
-    CALL OUTPUT1   
+    CALL OUTPUT   
     
     CALL KHUYENMAI 
     
