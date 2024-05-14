@@ -96,9 +96,12 @@ OPT4 DB 10, 13, 10, 13,    '  Chon hành dong: $'
 OPT5 DB 10, 13, 10, 13,    '                     Nhan nut bat ky de in hoa don: $' 
 OPT6 DB 10, 13, 10, 13,    '  Nhap lua chon cua ban: $'
 NOTE DB 13, 10, 10,        '  Ghi chu: $'
+NHAPSO DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 0 - 9 : $'
+ 
 
-BACK1 DB 10, 13, 10, 13,     '  1.Lua chon them mon $'
-BACK2 DB 13, 10,             '  2.Tiep theo$'
+ALERT DB 10, 13, 10, 13,   '  Lua chon khong ton tai !!!$'
+BACK1 DB 10, 13, 10, 13,   '  1.Lua chon them mon $'
+BACK2 DB 13, 10,           '  2.Tiep theo$'
 
 
 ;----------------------------------------GIAO DIEN----------------------------------------------------
@@ -106,10 +109,13 @@ BACK2 DB 13, 10,             '  2.Tiep theo$'
 
 ;-----GACH & CACH-----
 ;--------------------- 
-CACH1      DB  13, 10,   '|                                                                           |$'
-KHOANGCACH DB           '         $'
-CACH2     DB            ' $'
 
+CACH1      DB  13, 10,  '|                                                                           |$' 
+CACH2     DB            ' $'
+KHOANGCACH DB           '         $'
+
+
+GACH DB 10,13,10,13,    ' ----------------------------$'
 GACH1     DB            '            |$' 
 GACH2     DB            '                                            |$'
 GACH3 DB 13, 10,        '|---------------------------------------------------------------------------|$'
@@ -193,11 +199,12 @@ DMSG DB 10, 13, 10, 13,    '                 ***********************************
 DIS50 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 50% |$'
 DIS20 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 20% |$'  
 DIS10 DB 10, 13, 10, 13,   '                 | CHUC MUNG BAN DA TRUNG KHUYEN MAI 10% |$'
-NHAPSO DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 1 - 9 : $'                                                   
+                                                  
 
 ;-----XAC NHAN THANH TOAN-----
-;-----------------------------
-
+;----------------------------- 
+XNG         DB 10, 13, 10, 13,      '                         ----------------------------$'
+XNSAI       DB 10, 13, 10, 13,      '                          Lua chon khong ton tai !!!$'
 XACNHAN     DB 13, 10,              '                          XAC NHAN THANH TOAN: $'
 X1          DB 10, 13, 10, 13,      '                1.TIEN MAT                    2.CHUYEN KHOAN$'
 X2          DB 10, 13, 10, 13,      '|                 QUY KHACH VUI LONG THANH TOAN SAU KHI DUNG BUA            |$' 
@@ -568,7 +575,7 @@ OUTPUT1 ENDP
 ;-----THEM MON / TIEP TUC-----
 ;-----------------------------   
 BACK PROC
-
+    PRINT GACH 
     PRINT BACK1
     PRINT BACK2
     PRINT OPT6
@@ -578,8 +585,12 @@ BACK PROC
     SUB AL,48
 
     CMP AL,1
-    JE IN_MENU ;Hien thi MENU     
-    CALL LUCKYNUMBER  ;Quay trung thuong
+    JE IN_MENU ;Hien thi MENU 
+    CMP AL,2    
+    JE LUCKYNUMBER  ;Quay trung thuong 
+    PRINT GACH   
+    PRINT ALERT
+    JMP BACK
     RET
 BACK ENDP
                         
@@ -764,11 +775,14 @@ CONFIRM PROC
     
     MOV AH, 1
     INT 21H 
-    SUB AL, 48     ;Nhap lua chon
+    SUB AL, 48    ;Nhap lua chon
     
     CMP AL, 1      
-    JE TIENMAT     ;1 => Tien mat
-    JMP BANK       ;2 => Hoa don
+    JE TIENMAT    ;1 => Tien mat 
+    CMP AL, 2
+    JE BANK       ;2 => Hoa don
+    
+    JMP SAI:      ;So nhap vao khac 1 va 2
     
     TIENMAT:
       PRINT X2
@@ -788,8 +802,13 @@ CONFIRM PROC
       CALL IN_SO
       PRINT VND   
       PRINT CK5
-      PRINT CACH1
+      PRINT CACH1 
       
+    SAI: 
+      PRINT XNG
+      PRINT XNSAI
+      PRINT XNG
+      JMP CONFIRM   
       JMP KT
       
     KT:
