@@ -7,7 +7,7 @@
 NAME1   DW  '|  Banh Mi $'   ;Ten mon
 Q1      DW  0                ;So luong
 PR1     DW  10               ;Don gia
-STT1    DW  1                ;So Thu tu
+STT1    DW  1                ;So thu tu
 TONG1   DW  0                ;Tong tien
 
 
@@ -221,17 +221,34 @@ TBDIS DB 13, 10,                    '|  KHUYEN MAI:                             
 ;THONG BAO VAT             
 TBVAT DB 13, 10,                    '|  VAT(10%):                                         $' 
 
-.CODE
-;---IN RA MOT STRING BAT KI---
-;-----------------------------
+.CODE 
+
+;------IN RA MOT STRING BAT KI------
+;-----------------------------------
 PRINT MACRO STR
     LEA DX, STR
     MOV AH, 9
     INT 21H
 PRINT ENDM
 
-;-----XU LI MON AN-----
-;----------------------
+;--------XOA MAN HINH--------
+;---------------------------- 
+CLEARSCREEN MACRO
+    ;XOA TOAN BO MAN HINH
+    MOV AX, 0600H
+    MOV BH, 07H  
+    MOV CX, 0000H
+    MOV DX, 184FH
+    INT 10H  
+    ;DUA VI TRI CON TRO VE DAU TRANG
+    MOV AH, 02H
+    MOV BH, 00H
+    MOV DX, 0000H
+    INT 10H
+ENDM
+
+;-------XU LI MON AN-------
+;--------------------------
 XULI MACRO STT, Q, PR, TONG, DIS
     
     PRINT OPT2                                     
@@ -596,7 +613,7 @@ BACK ENDP
 ;--------------------------         
 LUCKYNUMBER PROC 
            
-    CALL CLEARSCREEN
+    CLEARSCREEN
     
     PRINT LU1
     PRINT LU2
@@ -723,7 +740,7 @@ XULIVAT ENDP
 ;--------------------------    
 RESULT PROC 
 
-    CALL CLEARSCREEN
+    CLEARSCREEN
     
     ;xu li hinh  thuc
     PRINT B0
@@ -801,6 +818,7 @@ CONFIRM PROC
       PRINT VND   
       PRINT CK5
       PRINT CACH1 
+      JMP KT
       
     SAI: 
       PRINT XNG
@@ -846,25 +864,5 @@ IN_SO PROC
         JNE LAP2
       ret
 IN_SO ENDP
-
-;-----XOA MAN HINH-----
-;---------------------- 
-CLEARSCREEN PROC
-    ;XOA TOAN BO MAN HINH
-    MOV AH, 06H
-    MOV AL, 00H
-    MOV BH, 07H
-    MOV CH, 00H
-    MOV CL, 00H
-    MOV DX, 184FH
-    INT 10H
-  
-    ;DUA VI TRI CON TRO VE DAU TRANG  
-    MOV AH, 02H
-    MOV BH, 00H
-    MOV DX, 0000H
-    INT 10H
-    ret  
-CLEARSCREEN ENDP 
 
 END
