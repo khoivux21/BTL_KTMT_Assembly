@@ -76,16 +76,14 @@ LIST DB 1, 2, 3, 4, 5, 6, 7, 8, 9
 ;-----------------------
 SUM DW ?                    ;Tong tien thanh toan             
 VAT DW ?                    ;VAT
-DISCOUNT DW ?               ;Danh dau muc khuyen mai
-DIS DW ?                    ;Tong tien khuyen mai
+DISCOUNT DW ?               ;Danh dau loai khuyen mai
+DIS DW ?                    ;Tien khuyen mai
 MUOI DW 10                  ;So 10
 CNT DW 0                    ;Bien dem
 
 TMP DW 0                    ;Bien tam
-STR2 DW 100 DUP('$')        ;Luu Ghi chu 
-STR3 DW 100 DUP('$')
-STRR dw 100 DUP('$')   
-
+STR2 DW 100 DUP('$')        ;Ghi chu 
+STR3 DW 100 DUP('$')        ;So luong mon
 
 
 ;----------------------------------------GIAO DIEN----------------------------------------------------
@@ -196,17 +194,19 @@ B3        DB 13, 10,     '|                             ---------------         
 NGAY      DB 13, 10,     '|        Ngay: 30/02/2024.         *****            Gio: 24h 00p            |$'
 ADMIN     DB 13, 10,     '|        Thu Ngan: Admin                           Ma Hoa Don: KTMT05       |$'
 DSACH     DB 13, 10,     '|  DS MON AN:      SO LUONG        DON GIA           THANH TIEN             |$'
-                             
+TBDIS DB 13, 10,                    '|  KHUYEN MAI:                                       $'             
+TBVAT DB 13, 10,                    '|  VAT(10%):                                         $'                              
 TONG     DB 13, 10,     '|  TONG THANH TOAN:  $'
 VND       DB             '.000VND$'          
                                                  
 
 ;-----XAC NHAN THANH TOAN-----
 ;----------------------------- 
-XNG         DB 10, 13, 10, 13,      '                         ----------------------------$'
-XNSAI       DB 10, 13, 10, 13,      '                          Lua chon khong ton tai !!!$'
+
 XACNHAN     DB 13, 10,              '                          XAC NHAN THANH TOAN: $'
 X1          DB 10, 13, 10, 13,      '                1.TIEN MAT                    2.CHUYEN KHOAN$'
+XNG         DB 10, 13, 10, 13,      '                         ----------------------------$'
+XNSAI       DB 10, 13, 10, 13,      '                          Lua chon khong ton tai !!!$'
 X2          DB 10, 13, 10, 13,      '|                 QUY KHACH VUI LONG THANH TOAN SAU KHI DUNG BUA            |$' 
 
 X3          DB 13, 10,              '|                      THANH TOAN QUA HINH THUC CHUYEN KHOAN:               |$'
@@ -215,11 +215,8 @@ CK2         DB 13, 10,              '|                      SO TAI KHOAN:     99
 CK3         DB 13, 10,              '|                      ND CHUYEN KHOAN:  KTMT05                             |$'                                 
 CK4         DB 13, 10,              '|                      SO TIEN:       $'
 CK5         DB                                                                       '                           |$'
-KETTHUC     DB 13, 10,              '|-------------------------CHUC QUY KHACH NGON MIENG!------------------------|$'
-;GREETING                           '|---------------------------------------------------------------------------|$'     
-TBDIS DB 13, 10,                    '|  KHUYEN MAI:                                       $'
-;THONG BAO VAT             
-TBVAT DB 13, 10,                    '|  VAT(10%):                                         $' 
+KETTHUC     DB 13, 10,              '|-------------------------CHUC QUY KHACH NGON MIENG!------------------------|$'     
+
 
 .CODE 
 
@@ -249,7 +246,7 @@ ENDM
 
 ;-------XU LI MON AN-------
 ;--------------------------
-XULI MACRO STT, Q, PR, TONG, DIS
+XULI MACRO STT, Q, PR, TONG
     
     PRINT OPT2                                     
     PUSH CX
@@ -272,7 +269,7 @@ XULI MACRO STT, Q, PR, TONG, DIS
     MOV AX, TONG    ;Tong so tien cua hoa don
     ADD AX, DX
     MOV TONG, AX
-    
+   
      
 XULI ENDM  
        
@@ -377,8 +374,8 @@ MAIN PROC
     PRINT ME4
     PRINT ME5
     PRINT ME5
-    PRINT OPT1
     
+    PRINT OPT1
     ;Chon mon an    
     MOV AH,1
     INT 21H
@@ -456,8 +453,8 @@ MAIN PROC
 MAIN ENDP  
 
       
-;-----HIEN THI MAN HINH CHAO MUNG-----
-;-------------------------------------
+;----HIEN THI CHAO MUNG----
+;--------------------------
 WELCOME PROC
       
     PRINT GACH3
@@ -628,17 +625,15 @@ LUCKYNUMBER PROC
     PRINT GACH3       
     PRINT NHAPSO
     
-    
+    ;NHAP SO MAY MAN
     MOV AH, 1;
-    INT 21H
-    SUB AL, 48    ;Lucky Numer
-    
-    
-    
+    INT 21H        
+    SUB AL, 48      
+    ;SO SANH VOI 9
     MOV AH, 0
-    CMP AL, 9
+    CMP AL, 9      
     JE CHIN
-    
+    ;XET TINH CHAN LE
     TEST AL, 1      
     JNZ LE 
         PRINT DMSG
@@ -657,14 +652,13 @@ LUCKYNUMBER PROC
         MOV DISCOUNT, 5
     NEXT:
         PRINT DMSG
-        PRINT OPT5
+        PRINT OPT5  
         
+        ;NHAP PHIM BAT KI
         MOV AH,1
         INT 21H          
-        SUB AL,48
-        CMP AL,1
-        JE RESULT        
-    
+        CALL RESULT  
+                  
 LUCKYNUMBER ENDP 
 
 ;------XU LI KHUYEN MAI------
@@ -673,7 +667,7 @@ KHUYENMAI PROC
     MOV AX, SUM    
     MOV BX, SUM
     
-    CMP DISCOUNT, 5  ;le = 50
+    CMP DISCOUNT, 5  
     JE NAMMUOI    
     
     CMP DISCOUNT, 2
@@ -689,49 +683,47 @@ KHUYENMAI PROC
     NAMMUOI:    
         MOV CL, 2           
                  
+    
     KM:    
-        DIV CL         ;AX = AX / CL
-        MOV DIS, AX    ;DIS = AX / CL 
-                
+        DIV CL       ;AX = AX / CL
+        MOV DIS, AX  ;DIS = AX / CL                
         
         PRINT TBDIS
         MOV AX, DIS
-        CALL IN_SO     ;In Khuyen mai
-        
+        CALL IN_SO   ;In Khuyen mai        
         PRINT VND
         PRINT GACH1
         PRINT GACH3
         
-        CALL XULIVAT   ;Xu li va in VAT
+        CALL XULIVAT ;Xu li VAT
         
         MOV AX, DIS  
         MOV BX, SUM 
-        SUB BX, AX     ;SUM -= DIS
-        MOV SUM, BX      
-                     
-    ret
+        SUB BX, AX   ;SUM -= DIS
+        MOV SUM, BX                           
+    ret     
 KHUYENMAI ENDP
 
 ;--------XU LI VAT-------
 ;------------------------
 XULIVAT PROC
       
-   MOV AX, SUM    ;Tong tien
-   ;MOV BX, SUM
-   MOV CL, 10 
-   DIV CL         ;AX = AX / 10
-   MOV VAT, AX    ;VAT= AX
+   MOV AX, SUM  ;Tong tien
+   MOV CL, 10     
+   
+   DIV CL       ;AX = AX / 10
+   MOV VAT, AX  ;VAT= AX
    
    PRINT TBVAT
    MOV AX, VAT
-   CALL IN_SO     ;In VAT
+   CALL IN_SO   ;In VAT
    
    PRINT VND
    PRINT GACH1 
         
    MOV AX, VAT    
    MOV BX, SUM
-   ADD BX, AX     ;SUM += VAT
+   ADD BX, AX   ;SUM += VAT
    MOV SUM, BX 
    ret 
 XULIVAT ENDP
@@ -850,7 +842,7 @@ IN_SO PROC
         
  XULIDAUCACH:       
         MOV CNT, CX
-        ;xu li dau cach thua
+        ;XU LI DAU CACH THUA
         SOLVE  CNT                 
 
     LAP2:
