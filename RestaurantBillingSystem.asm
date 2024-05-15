@@ -658,7 +658,7 @@ LUCKYNUMBER PROC
         MOV AH,1
         INT 21H          
         CALL RESULT  
-                  
+      ret          
 LUCKYNUMBER ENDP 
 
 ;------XU LI KHUYEN MAI------
@@ -767,8 +767,7 @@ RESULT PROC
     
     CALL CONFIRM  ;Xac nhan hinh thuc thanh toan 
     ret
-RESULT ENDP
-
+RESULT ENDP 
 
 ;-----XAC NHAN THANH TOAN-----
 ;-----------------------------
@@ -820,10 +819,9 @@ CONFIRM PROC
       JMP KT
       
     KT:
-      PRINT KETTHUC
-
-    ret 
-CONFIRM ENDP 
+      PRINT KETTHUC 
+      ret
+CONFIRM ENDP
 
 ;-----IN SO LUU TRONG AX-----
 ;----------------------------
@@ -855,6 +853,7 @@ IN_SO PROC
         CMP CX, 0                 
         JNE LAP2
       ret
-IN_SO ENDP
+IN_SO ENDP 
+
 
 END
