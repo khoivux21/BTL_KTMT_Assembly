@@ -234,7 +234,7 @@ PRINT ENDM
 ;----------------------
 XULI MACRO STT, Q, PR, TONG, DIS
     
-    PRINT OPT2      ;'So luong: '                               
+    PRINT OPT2                                     
     PUSH CX
     CALL NHAPSL     ;Nhap so luong luu vao AX
     POP CX 
@@ -269,7 +269,7 @@ HIENTHI MACRO  NAME, Q, PR, TONG
      MOV SUM, AX
     
      PRINT CRTF
-     PRINT NAME      ;In ten
+     PRINT NAME     ;In ten
      PRINT KHOANGCACH
 
      MOV AX, Q
@@ -331,13 +331,13 @@ MAIN PROC
     MOV AX,@DATA
     MOV DS,AX    
  START:
-    CALL WELCOME ;Hien thi man hinh Welcome
+    CALL WELCOME  ;Hien thi man hinh Welcome
      
     
     MOV AH,1      ;Nhap nut bat ki de tiep tuc
-    INT 21H       ;Nhap 1 Ki tu luu trong AL
+    INT 21H       
 
-    CALL IN_MENU   ;Hien thi MENU
+    CALL IN_MENU  ;Hien thi MENU
     MOV SI, 0     
  
  ;-----HIEN THI MENU------
@@ -362,8 +362,7 @@ MAIN PROC
     PRINT ME5
     PRINT OPT1
     
-    ;Chon mon an
-    ;Ki tu vua nhap = STT =>> XULI     
+    ;Chon mon an    
     MOV AH,1
     INT 21H
 
@@ -463,30 +462,30 @@ WELCOME ENDP
 
 ;-----NHAP SO LUONG MON AN-----
 ;------------------------------
-NHAPSL PROC
+NHAPSL PROC                ;Nhap string, chuyen thanh dang so
        
         MOV AH, 10                  
-        LEA DX, str3       ;String so luong
+        LEA DX, STR3       ;Nhap so luong mon
         INT 21H
     
-        LEA SI, str3 + 2   ;Tro SI vào ki tu dau cua string         
-        MOV CX, [str3 + 1] ;CX = length lam index         
+        LEA SI, STR3 + 2   ;Tro SI vào ki tu dau cua string         
+        MOV CX, [STR3 + 1] ;CX = length        
         XOR CH, CH                 
         MOV AX, 0
         MOV TMP, AX
     L1:                   
         MOV BX, 0
         MOV AX, TMP               
-        MOV BX, [SI]    ;BX = kitu          
+        MOV BX, [SI]       ;BX = kitu          
         MOV BH, 0
-        SUB BX, '0'     ;Chuyen tu ki trong BX tu ve so          
-        MUL MUOI        ;AX = AX * 10     
-        ADD AX, BX      ;AX += BX            
+        SUB BX, '0'        ;Chuyen tu ki trong BX tu ve so          
+        MUL MUOI           ;AX = AX * 10     
+        ADD AX, BX         ;AX += BX            
         MOV TMP, AX                
-        INC SI          ;id++            
+        INC SI                       
         LOOP L1
         
-        MOV AX, TMP    ;AX = So luong  
+        MOV AX, TMP        ;AX = So luong  
     ret            
     
 NHAPSL ENDP
@@ -525,7 +524,7 @@ OUTPUT PROC
      INRA1:    
         CMP Q1, 0     ;Neu so luong  = 0 thi nhay den mon tiep theo
         JE CON        ;So luong khac 0 thi Hienthi
-        HIENTHI NAME1, Q1, PR1, TONG1   ;In Object
+        HIENTHI NAME1, Q1, PR1, TONG1   ;Hien thi Mon an
         JMP CON
      INRA2:  
         CMP Q2, 0
@@ -584,11 +583,11 @@ BACK PROC
     SUB AL,48
 
     CMP AL,1
-    JE IN_MENU ;Hien thi MENU 
+    JE IN_MENU      ;Hien thi MENU 
     CMP AL,2    
-    JE LUCKYNUMBER  ;Quay trung thuong 
+    JE LUCKYNUMBER  ;So may man
     PRINT GACH   
-    PRINT ALERT
+    PRINT ALERT     ;Lua chon khong ton tai
     JMP BACK
     RET
 BACK ENDP
@@ -654,7 +653,7 @@ LUCKYNUMBER ENDP
 ;------XU LI KHUYEN MAI------
 ;----------------------------
 KHUYENMAI PROC 
-    MOV AX, SUM    ;Tong tien
+    MOV AX, SUM    
     MOV BX, SUM
     
     CMP DISCOUNT, 5  ;le = 50
@@ -680,7 +679,7 @@ KHUYENMAI PROC
         
         PRINT TBDIS
         MOV AX, DIS
-        CALL IN_SO    ;In discount
+        CALL IN_SO     ;In Khuyen mai
         
         PRINT VND
         PRINT GACH1
@@ -704,11 +703,11 @@ XULIVAT PROC
    ;MOV BX, SUM
    MOV CL, 10 
    DIV CL         ;AX = AX / 10
-   MOV VAT, AX    ;VAT= AX / 10
+   MOV VAT, AX    ;VAT= AX
    
    PRINT TBVAT
    MOV AX, VAT
-   CALL IN_SO    ;In VAT
+   CALL IN_SO     ;In VAT
    
    PRINT VND
    PRINT GACH1 
