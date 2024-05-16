@@ -96,7 +96,7 @@ OPT2 DB 13, 10, 10,        '  Nhap so luong: $'
 OPT3  DB 10,13,10,13,      '  Nhan nut bat ky de bat dau: $'
 OPT4 DB 10, 13, 10, 13,    '  Chon hành dong: $' 
 OPT5 DB 10, 13, 10, 13,    '                     Nhan nut bat ky de in hoa don: $' 
-OPT6 DB 10, 13, 10, 13,    '  Nhap lua chon cua ban: $'
+OPT6 DB 10, 13,            '  Nhap lua chon cua ban: $'
 NOTE DB 13, 10, 10,        '  Ghi chu: $'
 NHAPSO DB 10, 13, 10, 13,  '                   Hay nhap 1 so trong doan tu 0 - 9 : $'
  
@@ -242,7 +242,40 @@ CLEARSCREEN MACRO
     MOV BH, 00H
     MOV DX, 0000H
     INT 10H
-ENDM
+ENDM           
+
+ 
+;-----XU LI DAU CACH-----
+;------------------------
+XULI_DAUCACH MACRO CNT 
+    
+   MOV AX, CNT
+   CMP AX, 1
+   JE C1
+   CMP AX, 2
+   JE C2
+   CMP AX, 3
+   JE C3
+   JMP HET
+   
+   C1:
+    PRINT CACH2
+    PRINT CACH2
+    PRINT CACH2
+    JMP HET
+    
+   C2:
+    PRINT CACH2
+    PRINT CACH2
+    JMP HET
+   
+   C3:
+    PRINT CACH2
+    JMP HET
+    
+ HET:    
+XULI_DAUCACH ENDM
+
 
 ;-------XU LI MON AN-------
 ;--------------------------
@@ -305,38 +338,6 @@ HIENTHI MACRO  NAME, Q, PR, TONG
      PRINT GACH3
      
 HIENTHI ENDM
- 
-;-----XU LI DAU CACH-----
-;------------------------
-SOLVE MACRO CNT 
-    
-   MOV AX, CNT
-   CMP AX, 1
-   JE C1
-   CMP AX, 2
-   JE C2
-   CMP AX, 3
-   JE C3
-   JMP HET
-   
-   C1:
-    PRINT CACH2
-    PRINT CACH2
-    PRINT CACH2
-    JMP HET
-    
-   C2:
-    PRINT CACH2
-    PRINT CACH2
-    JMP HET
-   
-   C3:
-    PRINT CACH2
-    JMP HET
-    
- HET:    
-SOLVE ENDM
-
 
 ;--------------------------------------
 ;---------BAT DAU CHUONG TRINH---------
@@ -589,7 +590,7 @@ OUTPUT ENDP
 BACK PROC
     PRINT GACH 
     PRINT BACK1
-    PRINT BACK2
+    PRINT BACK2 
     PRINT OPT6
     
     MOV AH,1
@@ -773,7 +774,6 @@ RESULT ENDP
 ;-----------------------------
 CONFIRM PROC
     
-    PRINT CRTF
     PRINT XACNHAN
     PRINT X1
     PRINT CRTF
@@ -825,13 +825,12 @@ CONFIRM ENDP
 
 ;-----IN SO LUU TRONG AX-----
 ;----------------------------
-IN_SO PROC
-        MOV BX, 10                  
+IN_SO PROC                 
         MOV CX, 0                 
         
     LAP1:  
         MOV DX, 0
-        DIV BX                   
+        DIV MUOI                   
         PUSH DX                     
         INC CX                    
         CMP AX, 0                  
@@ -841,7 +840,7 @@ IN_SO PROC
  XULIDAUCACH:       
         MOV CNT, CX
         ;XU LI DAU CACH THUA
-        SOLVE  CNT                 
+        XULI_DAUCACH  CNT                 
 
     LAP2:
  
@@ -854,6 +853,5 @@ IN_SO PROC
         JNE LAP2
       ret
 IN_SO ENDP 
-
 
 END
